@@ -25,4 +25,5 @@ while True:
         article = wikipedia.summary(topic)
         print("\n" + article)
         synthesize_text(article)
+        print(wikipedia.WikipediaPage(topic).images)
     except Exception as e: print(e)
