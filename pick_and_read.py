@@ -1,3 +1,5 @@
+import wikipedia
+from sys import argv
 from google.cloud import texttospeech
 
 def synthesize_text(text):
@@ -5,7 +7,7 @@ def synthesize_text(text):
     input = texttospeech.types.SynthesisInput(text=text)
 
     voice = texttospeech.types.VoiceSelectionParams(
-        language_code='fr-FR',
+        language_code='en-GB',
         ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
 
     audio_config = texttospeech.types.AudioConfig(
@@ -17,4 +19,10 @@ def synthesize_text(text):
         out.write(response.audio_content)
         print('Audio content written to file "output.mp3"')
 
-synthesize_text("Harleen is amazing")
+while True:
+    topic = input("\nEnter topic to be summarized: ")
+    try:
+        article = wikipedia.summary(topic)
+        print("\n" + article)
+        synthesize_text(article)
+    except Exception as e: print(e)
