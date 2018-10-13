@@ -1,6 +1,7 @@
 import wikipedia
 from sys import argv
 from google.cloud import texttospeech
+import urllib.request
 
 def synthesize_text(text):
     client = texttospeech.TextToSpeechClient()
@@ -25,5 +26,9 @@ while True:
         article = wikipedia.summary(topic)
         print("\n" + article)
         synthesize_text(article)
-        print(wikipedia.WikipediaPage(topic).images)
+        images = wikipedia.WikipediaPage(topic).images
+        for i in range (len(images)):
+            if ((images[i][-3:] == "jpg") or (images[i][-3:] == "png")):
+                urllib.request.urlretrieve(images[i], "0000000" + str(i) + ".jpg")
+
     except Exception as e: print(e)
